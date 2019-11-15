@@ -1,21 +1,23 @@
 #include <cam.h>
 #include <constants.h>
 #include <librealsense2/rs.hpp>
-#include <thread>
+#include <unordered_map>
 
-
-void RealSenseCam::initialise_camera(){
-    rs2::pipeline pipe;
-    pipe.start();
-    rs2::frameset frames = pipe.wait_for_frames();
-    while(true){
-        this->depth_frame = frames.get_depth_frame();
-        this->color_frame = frames.get_color_frame();
-    }
-}
 
 RealSenseCam::RealSenseCam() {
-    std::thread realsense_thread(&RealSenseCam::initialise_camera, this);
-    realsense_thread.detach();
+    rs2::config config;
+    config.enable_stream(RS2_STREAM_DEPTH);
+    config.enable_stream(RS2_STREAM_COLOR);
+    this->pipe.start(config);
+
 }
+
+std::pair<rs2::depth_frame, rs2::frame> RealSenseCam::get_frames() {
+    rs2::frameset frames = this->pipe.wait_for_frames();
+    //ToDo: Ask Caleb for a better way to do this
+    rs2::align align_to_depth(RS2_STREAM_DEPTH);
+    frames = align_to_depth.process(frames);
+    return std::make_pair(frames.get_depth_frame(), frames.get_color_frame());
+}
+
 

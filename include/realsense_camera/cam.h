@@ -3,17 +3,16 @@
 
 #include <librealsense2/rs.hpp>
 
-
 class RealSenseCam{
 public:
     RealSenseCam();
+    std::pair<rs2::depth_frame, rs2::frame> get_frames();
+private:
+    void initialise_camera();
+    rs2::pipeline pipe;
+
     rs2::depth_frame depth_frame = rs2::depth_frame(rs2::frame());
     rs2::frame color_frame = rs2::frame();
-
-private:
-
-    void initialise_camera();
-
 };
 
 #endif //PROJECTILE_ESTIMATE_CAM_H
