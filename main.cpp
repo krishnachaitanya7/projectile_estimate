@@ -8,6 +8,8 @@ using namespace std;
 int main() {
     RealSenseCam my_cam;
     Mat src_gray;
+    // ToDo: Implement Hole Filling preprocessing algorithm from Realsense
+    // To improve Hough Transform
     while (true){
         rs2::frame color_frame = my_cam.get_frames().second;
 
