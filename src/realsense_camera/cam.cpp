@@ -9,6 +9,11 @@ RealSenseCam::RealSenseCam() {
     config.enable_stream(RS2_STREAM_DEPTH);
     config.enable_stream(RS2_STREAM_COLOR);
     this->pipe.start(config);
+    for(int i = 0; i < 30; i++){
+        // Wait for all configured streams to produce a frame
+
+        this->pipe.wait_for_frames();
+    }
 
 }
 
