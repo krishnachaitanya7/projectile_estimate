@@ -11,3 +11,6 @@ include_directories($(PROJECT_SOURCE_DIR)/include/realsense_camera)
 include_directories($(PROJECT_SOURCE_DIR)/include/constants)
 add_executable(projectile_estimate main.cpp src/realsense_camera/cam.cpp)
 target_link_libraries(projectile_estimate realsense2 pthread ${OpenCV_LIBS})
+
+add_executable(color_test color_filtering.cpp src/realsense_camera/cam.cpp)
+target_link_libraries(color_test realsense2 pthread ${OpenCV_LIBS})
