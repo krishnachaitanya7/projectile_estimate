@@ -27,7 +27,7 @@ int main() {
     // (the shortest-path will always prefer to "cut" through the holes since they have zero 3D distance)
     spat.set_option(RS2_OPTION_HOLES_FILL, 2); // 5 = fill all the zero pixels
 
-    // ToDo: Implement Hole Filling preprocessing algorithm from Realsense
+    // ̶T̶o̶D̶o̶: ̶I̶m̶p̶l̶e̶m̶e̶n̶t ̶H̶o̶l̶e ̶F̶i̶l̶l̶i̶n̶g ̶p̶r̶e̶p̶r̶o̶c̶e̶s̶s̶i̶n̶g ̶a̶l̶g̶o̶r̶i̶t̶h̶m ̶f̶r̶o̶m ̶R̶e̶a̶l̶s̶e̶n̶s̶e
     // To improve Hough Transform
     while (true){
         std::pair<rs2::depth_frame, rs2::frame> incoming_frames = my_cam.get_frames();
@@ -35,7 +35,7 @@ int main() {
         Mat img(Size(640, 480), CV_8UC3, (void*)color_frame.get_data(), Mat::AUTO_STEP);
         GaussianBlur(img, img_blurred, Size(3, 3), 0);
         cvtColor(img_blurred, hsv_image, COLOR_BGR2HSV);
-        inRange(hsv_image, Scalar(29, 86, 6), Scalar(64, 255, 255), frame_threshold);
+        inRange(hsv_image, Scalar(80, 53, 60), Scalar(100, 100, 100), frame_threshold);
         erode(frame_threshold, frame_threshold, Mat());
         dilate(frame_threshold, frame_threshold, Mat());
         std::vector<std::vector<cv::Point> > contours;
@@ -67,7 +67,7 @@ int main() {
                 }
 
             }
-            imshow( "Contours", img );
+            imshow( "Contours", frame_threshold );
             waitKey(1);
         }
     }
